@@ -10,6 +10,7 @@ import (
 	"time"
 
 	"github.com/go-martini/martini"
+	"github.com/martini-contrib/cors"
 	"github.com/pborman/uuid"
 )
 
@@ -88,7 +89,7 @@ func newClient(state *GameState) (int, string) {
 
 	state.clients[clientId] = Client{
 		word:     word,
-		attempts: 0,
+		attempts: 1,
 		guesses:  make(map[string]int),
 	}
 	var resp = &NewClientResponse{
@@ -131,7 +132,7 @@ func makeGuess(state *GameState, req *http.Request) (int, string) {
 	var word = state.clients[clientId].word
 	var letter = strings.ToLower(jsonResult.Letter)
 	var guesses = state.clients[clientId].guesses
-	var attemptsLeft = len(word)/2 - state.clients[clientId].attempts
+	var attemptsLeft = len(word) - state.clients[clientId].attempts
 	var isGuessCorrect = strings.Contains(strings.ToLower(word), letter)
 
 	var response []byte
@@ -205,7 +206,16 @@ func main() {
 	server.Post("/guess", checkAuth, makeGuess)
 
 	// UI
-	server.Use(martini.Static("public"))
+	// server.Use(martini.Static("public"))
+
+	// CORS
+	server.Use(cors.Allow(&cors.Options{
+		AllowOrigins:     []string{"http://statika-shmatika.fvds.ru"},
+		AllowMethods:     []string{"GET", "POST"},
+		AllowHeaders:     []string{"X-Client-Id"},
+		ExposeHeaders:    []string{"Content-Length"},
+		AllowCredentials: true,
+	}))
 
 	server.Run()
 }

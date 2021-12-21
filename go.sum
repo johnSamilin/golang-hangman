@@ -4,5 +4,7 @@ github.com/go-martini/martini v0.0.0-20170121215854-22fa46961aab h1:xveKWz2iauee
 github.com/go-martini/martini v0.0.0-20170121215854-22fa46961aab/go.mod h1:/P9AEU963A2AYjv4d1V5eVL1CQbEJq6aCNHDDjibzu8=
 github.com/google/uuid v1.0.0 h1:b4Gk+7WdP/d3HZH8EJsZpvV7EtDOgaZLtnaNGIu1adA=
 github.com/google/uuid v1.0.0/go.mod h1:TIyPZe4MgqvfeYDBFedMoGGpEw/LqOeaOT+nhxU+yHo=
+github.com/martini-contrib/cors v0.0.0-20141016003011-553b9208d353 h1:kXDXsKbuZYwJXBVeLT49PwPvAfQg74/8mOZUqrfV3cg=
+github.com/martini-contrib/cors v0.0.0-20141016003011-553b9208d353/go.mod h1:ZQqqR+M04limsCsRirtK4IAN2ioLKKNxhvl7f0U40yw=
 github.com/pborman/uuid v1.2.1 h1:+ZZIw58t/ozdjRaXh/3awHfmWRbzYxJoAdNJxe/3pvw=
 github.com/pborman/uuid v1.2.1/go.mod h1:X/NO0urCmaxf9VXbdlT7C2Yzkj2IKimNn4k+gtPdI/k=
