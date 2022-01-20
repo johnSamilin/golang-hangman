@@ -35,13 +35,3 @@ func (e *CmdArgsExecutor) StartExecution(wg *sync.WaitGroup) {
 func (e *CmdArgsExecutor) GetStats() analyzer.Stats {
 	return e.stats
 }
-
-func (e *CmdArgsExecutor) SetWorkersCount(workers int) {
-	for i := 0; i < e.workersCount; i++ {
-		<-e.workersPool
-	}
-	e.workersCount = workers
-	for i := 0; i < workers; i++ {
-		e.workersPool <- Worker{Id: i, Lock: &sync.Mutex{}}
-	}
-}

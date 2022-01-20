@@ -14,7 +14,6 @@ type IExecutor interface {
 	StartExecution(wg *sync.WaitGroup)
 	SetCommands([]string)
 	GetStats() analyzer.Stats
-	SetWorkersCount(int)
 }
 
 type IConfigFilesExecutor interface {

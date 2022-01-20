@@ -56,15 +56,3 @@ func (e *ConfigFilesExecutor) StartExecution(wg *sync.WaitGroup) {
 func (e *ConfigFilesExecutor) GetStats() analyzer.Stats {
 	return e.stats
 }
-
-func (e *ConfigFilesExecutor) SetWorkersCount(workers int) {
-	close(e.workersPool)
-	for i := 0; i < e.workersCount; i++ {
-		<-e.workersPool
-	}
-	e.workersCount = workers
-	e.workersPool = make(chan Worker, workers)
-	for i := 0; i < workers; i++ {
-		e.workersPool <- Worker{Id: i, Lock: &sync.Mutex{}}
-	}
-}
