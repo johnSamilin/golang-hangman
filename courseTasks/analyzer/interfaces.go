@@ -5,5 +5,4 @@ type iAnalyzer interface {
 	AddLine()
 	Restart()
 	GetText()
-	GetStats()
 }
