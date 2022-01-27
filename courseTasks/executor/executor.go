@@ -55,9 +55,9 @@ func start(configId int, workers chan Worker, commands []string, wg *sync.WaitGr
 		freeWorker := <-workers
 		if len(tasksPool) > 0 {
 			go func(f Worker, w chan Worker) {
-				freeWorker.Work(configId, <-tasksPool)
-				if freeWorker.IsActive {
-					workers <- freeWorker
+				f.Work(configId, <-tasksPool)
+				if f.IsActive {
+					w <- f
 				}
 			}(freeWorker, workers)
 		}
