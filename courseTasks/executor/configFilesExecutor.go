@@ -2,22 +2,21 @@ package executor
 
 import (
 	"fmt"
-	"johnSamilin/golang-hangman/courseTasks/analyzer"
 	"johnSamilin/golang-hangman/courseTasks/utils"
+	"strconv"
 	"sync"
 )
 
-func CreateConfigFilesExecutor(exitSig chan bool, workers int, filesSource string) IConfigFilesExecutor {
+func CreateConfigFilesExecutor(workers int, filesSource string) IConfigFilesExecutor {
 	ex := &ConfigFilesExecutor{
 		Executor: Executor{
 			workersCount: workers,
 			workersPool:  make(chan Worker, workers),
-			exitSignal:   exitSig,
 		},
 		filesSource: filesSource,
 	}
 	for i := 0; i < workers; i++ {
-		ex.workersPool <- Worker{Id: i, Lock: &sync.Mutex{}}
+		ex.workersPool <- Worker{Id: i, Lock: &sync.Mutex{}, IsActive: true}
 	}
 
 	return ex
@@ -38,7 +37,7 @@ func (e *ConfigFilesExecutor) StartExecution(wg *sync.WaitGroup) {
 		wg.Add(1)
 		var commands, _ = utils.ReadFile(e.filesSource, name)
 		e.SetCommands(commands)
-		stats := startExecution(idx, e.workersPool, commands, e.exitSignal, wg)
+		stats := start(idx, e.workersPool, commands, wg)
 		if e.stats.TopWordOccurrences < stats.TopWordOccurrences {
 			e.stats.TopWordOccurrences = stats.TopWordOccurrences
 			e.stats.TopWord = stats.TopWord
@@ -53,6 +52,6 @@ func (e *ConfigFilesExecutor) StartExecution(wg *sync.WaitGroup) {
 	}
 }
 
-func (e *ConfigFilesExecutor) GetStats() analyzer.Stats {
-	return e.stats
+func (e *ConfigFilesExecutor) GetStats() string {
+	return "The most common command was " + e.stats.TopWord + " (" + strconv.Itoa(e.stats.TopWordOccurrences) + " times)"
 }

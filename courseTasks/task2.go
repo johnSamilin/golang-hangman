@@ -8,5 +8,5 @@ import (
 func main() {
 	collector := analyzer.New()
 	collector.AddLine("Quick brown fox jumped over the lazy dog then jumped again back!")
-	fmt.Println(collector.GetStats())
+	fmt.Println(collector.Stats)
 }

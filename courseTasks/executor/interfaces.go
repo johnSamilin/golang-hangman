@@ -1,19 +1,14 @@
 package executor
 
 import (
-	"johnSamilin/golang-hangman/courseTasks/analyzer"
+	"fmt"
 	"sync"
 )
-
-type Worker struct {
-	Id   int
-	Lock *sync.Mutex
-}
 
 type IExecutor interface {
 	StartExecution(wg *sync.WaitGroup)
 	SetCommands([]string)
-	GetStats() analyzer.Stats
+	GetStats() string
 }
 
 type IConfigFilesExecutor interface {
@@ -21,20 +16,7 @@ type IConfigFilesExecutor interface {
 	Read()
 }
 
-type Executor struct {
-	workersCount int
-	workersPool  chan Worker
-	exitSignal   chan bool
-	commands     []string
-	stats        analyzer.Stats
-}
-
-type CmdArgsExecutor struct {
-	Executor
-}
-
-type ConfigFilesExecutor struct {
-	Executor
-	filesSource string
-	files       []string
+type ITask interface {
+	fmt.Stringer
+	Execute() (bool, string)
 }
