@@ -19,7 +19,7 @@ func TestAnalyzer_AddLine(t *testing.T) {
 	}{
 		{
 			name: "Add 1 line",
-			a:    &collector,
+			a:    collector,
 			args: args{
 				line: "First line",
 			},
@@ -27,7 +27,7 @@ func TestAnalyzer_AddLine(t *testing.T) {
 		},
 		{
 			name: "Add 2 line",
-			a:    &collector,
+			a:    collector,
 			args: args{
 				line: "Second line",
 			},
@@ -49,7 +49,7 @@ func TestAnalyzer_Restart(t *testing.T) {
 	line := "Quick brown fox jumped over the lazy dog then jumped again back!"
 	collector := New()
 	collector.AddLine(line)
-	gotStats := collector.GetStats()
+	gotStats := collector.Stats
 	wantStats1 := Stats{
 		CharCount:            53,
 		TopWord:              "jumped",
@@ -61,7 +61,7 @@ func TestAnalyzer_Restart(t *testing.T) {
 	}
 
 	collector.Restart()
-	gotStats = collector.GetStats()
+	gotStats = collector.Stats
 	wantStats2 := Stats{
 		CharCount:            0,
 		TopWord:              "",
@@ -76,7 +76,7 @@ func TestAnalyzer_Restart(t *testing.T) {
 	}
 
 	collector.AddLine(line)
-	gotStats = collector.GetStats()
+	gotStats = collector.Stats
 	if !reflect.DeepEqual(gotStats, wantStats1) {
 		t.Errorf("gotStats = %v, want %v (after Restart and AddLine again)", gotStats, wantStats1)
 	}
